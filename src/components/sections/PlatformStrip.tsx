@@ -1,72 +1,273 @@
-import TotemVertical from "../devices/TotemVertical";
-import LandscapeTV from "../devices/LandscapeTV";
-import DigitalDisplay from "../devices/DigitalDisplay";
-import { MenuScreen, QueueScreen, WeatherScreen, PromoScreen } from "../devices/screens";
+import { KeyboardEvent, useRef, useState } from "react";
+import {
+  BarChart3,
+  ChefHat,
+  ClipboardList,
+  CreditCard,
+  LayoutDashboard,
+  MonitorSmartphone,
+  PanelsTopLeft,
+  Store,
+  Utensils,
+} from "lucide-react";
+import type { LucideIcon } from "lucide-react";
+import { AnimatePresence, motion } from "framer-motion";
+import usePrefersReducedMotion from "../../hooks/usePrefersReducedMotion";
+
+type ModuleView = {
+  id: string;
+  label: string;
+  icon: LucideIcon;
+  title: string;
+  description: string;
+  rows: Array<{ name: string; detail: string; status: string }>;
+  chart?: boolean;
+};
+
+const MODULES: ModuleView[] = [
+  {
+    id: "visao-geral",
+    label: "Visão geral",
+    icon: LayoutDashboard,
+    title: "A operação em uma visão",
+    description: "Uma leitura central para acompanhar o que acontece entre pedido, preparo e retirada.",
+    rows: [
+      { name: "Pedidos", detail: "Entrada e andamento", status: "Fluxo" },
+      { name: "Cozinha", detail: "Fila de preparo", status: "KDS" },
+      { name: "Retirada", detail: "Chamada do pedido", status: "Painel" },
+    ],
+  },
+  {
+    id: "pedidos",
+    label: "Pedidos",
+    icon: ClipboardList,
+    title: "Pedidos com contexto",
+    description: "Veja a origem e o status do pedido enquanto ele segue pela operação.",
+    rows: [
+      { name: "Pedido #042", detail: "Totem · recebido", status: "Novo" },
+      { name: "Pedido #041", detail: "Cozinha · em preparo", status: "KDS" },
+      { name: "Pedido #038", detail: "Balcão · pronto", status: "Retirada" },
+    ],
+  },
+  {
+    id: "caixa",
+    label: "Caixa",
+    icon: CreditCard,
+    title: "Caixa dentro do mesmo fluxo",
+    description: "Uma visão de demonstração para relacionar atendimento, pedidos e caixa.",
+    rows: [
+      { name: "Movimentações", detail: "Resumo da unidade", status: "Exemplo" },
+      { name: "Fechamento", detail: "Conferência do período", status: "Exemplo" },
+      { name: "Recebimentos", detail: "Meios de pagamento", status: "Exemplo" },
+    ],
+  },
+  {
+    id: "cozinha",
+    label: "Cozinha · KDS",
+    icon: ChefHat,
+    title: "Uma fila clara para a cozinha",
+    description: "Pedidos organizados por etapa para a equipe identificar o que preparar.",
+    rows: [
+      { name: "Pedido #042", detail: "Combo executivo", status: "Novo" },
+      { name: "Pedido #041", detail: "Prato do dia", status: "Em preparo" },
+      { name: "Pedido #038", detail: "Bebida e acompanhamento", status: "Pronto" },
+    ],
+  },
+  {
+    id: "totens",
+    label: "Totens",
+    icon: MonitorSmartphone,
+    title: "Autoatendimento conectado",
+    description: "O pedido começa no ponto de atendimento e segue para as próximas etapas.",
+    rows: [
+      { name: "Totem de entrada", detail: "Cardápio de exemplo", status: "Unidade A" },
+      { name: "Totem de retirada", detail: "Fluxo ilustrativo", status: "Unidade A" },
+      { name: "Pedido #042", detail: "Origem: autoatendimento", status: "Recebido" },
+    ],
+  },
+  {
+    id: "retirada",
+    label: "Retirada",
+    icon: PanelsTopLeft,
+    title: "A última etapa também é parte do fluxo",
+    description: "Status de pedido em destaque para organizar a chamada no balcão.",
+    rows: [
+      { name: "Pedido #042", detail: "Ana · exemplo", status: "Pronto" },
+      { name: "Pedido #041", detail: "Em preparo", status: "Aguardando" },
+      { name: "Pedido #038", detail: "Concluído", status: "Retirado" },
+    ],
+  },
+  {
+    id: "cardapio",
+    label: "Cardápio",
+    icon: Utensils,
+    title: "Cardápio organizado para a rotina",
+    description: "Itens, combinações e disponibilidade apresentados em uma interface única.",
+    rows: [
+      { name: "Combo executivo", detail: "Item de demonstração", status: "Ativo" },
+      { name: "Prato do dia", detail: "Item de demonstração", status: "Ativo" },
+      { name: "Suco natural", detail: "Item de demonstração", status: "Ativo" },
+    ],
+  },
+  {
+    id: "relatorios",
+    label: "Relatórios",
+    icon: BarChart3,
+    title: "Uma leitura visual da operação",
+    description: "Exemplo de como informações da rotina podem aparecer no painel.",
+    rows: [
+      { name: "Pedidos por período", detail: "Gráfico ilustrativo", status: "Exemplo" },
+      { name: "Tempo de preparo", detail: "Indicador ilustrativo", status: "Exemplo" },
+      { name: "Comparativo por unidade", detail: "Visão ilustrativa", status: "Exemplo" },
+    ],
+    chart: true,
+  },
+  {
+    id: "unidades",
+    label: "Unidades",
+    icon: Store,
+    title: "Uma visão para diferentes unidades",
+    description: "Um exemplo visual de organização por ponto de operação.",
+    rows: [
+      { name: "Unidade A", detail: "Visão de exemplo", status: "Unidade" },
+      { name: "Unidade B", detail: "Visão de exemplo", status: "Unidade" },
+      { name: "Unidade C", detail: "Visão de exemplo", status: "Unidade" },
+    ],
+  },
+];
 
 export default function PlatformStrip() {
+  const [active, setActive] = useState(0);
+  const tabRefs = useRef<Array<HTMLButtonElement | null>>([]);
+  const reduceMotion = usePrefersReducedMotion();
+  const current = MODULES[active];
+  const ActiveIcon = current.icon;
+
+  function handleTabKeyDown(event: KeyboardEvent<HTMLButtonElement>, index: number) {
+    let nextIndex = index;
+    if (event.key === "ArrowRight") nextIndex = (index + 1) % MODULES.length;
+    else if (event.key === "ArrowLeft") nextIndex = (index - 1 + MODULES.length) % MODULES.length;
+    else if (event.key === "Home") nextIndex = 0;
+    else if (event.key === "End") nextIndex = MODULES.length - 1;
+    else return;
+
+    event.preventDefault();
+    setActive(nextIndex);
+    tabRefs.current[nextIndex]?.focus();
+  }
+
   return (
-    <section id="produto" className="relative border-t border-border bg-white py-24 sm:py-28">
+    <section id="produto" className="border-t border-border bg-white py-20 sm:py-24">
       <div className="mx-auto max-w-content px-5 sm:px-8">
-        <div className="max-w-[620px]">
-          <p className="text-xs font-bold uppercase tracking-[0.16em] text-brand-deep">Uma operação conectada</p>
-          <h2 className="mt-3 text-balance font-display text-[1.9rem] font-bold leading-tight text-ink sm:text-[2.3rem]">
-            Um pedido começa no totem e chega onde precisa estar.
+        <div className="max-w-[650px]">
+          <p className="text-xs font-bold uppercase tracking-[0.16em] text-brand-deep">A plataforma</p>
+          <h2 className="mt-3 text-balance font-display text-[1.9rem] font-bold leading-tight text-ink sm:text-[2.35rem]">
+            Uma visão central para cada etapa do restaurante.
           </h2>
           <p className="mt-4 max-w-prose text-[15px] leading-relaxed text-muted">
-            Centralize o cardápio, acelere o autoatendimento e mantenha cozinha e retirada sincronizadas em cada unidade.
+            Explore as áreas da plataforma e veja como o pedido pode seguir da entrada à gestão.
           </p>
         </div>
 
-        <div className="relative mt-16">
-          <div className="pointer-events-none absolute left-0 right-0 top-[78%] h-px bg-gradient-to-r from-transparent via-signal/50 to-transparent sm:top-[82%]" />
-
-          <div className="flex items-end gap-8 overflow-x-auto pb-4 sm:justify-between sm:gap-4 sm:overflow-visible">
-            <div className="flex shrink-0 flex-col items-center gap-4">
-              <span className="rounded-full border border-border-strong bg-white px-2.5 py-1 text-[10px] font-medium text-muted">
-                KDS — Cozinha
-              </span>
-              <LandscapeTV sizeClass="[--dw:200px] sm:[--dw:190px] lg:[--dw:230px]" statusLabel="Online">
-                <QueueScreen />
-              </LandscapeTV>
-            </div>
-
-            <div className="flex shrink-0 flex-col items-center gap-4">
-              <span className="rounded-full border border-[#FFD7BF] bg-[#FFF8F2] px-2.5 py-1 text-[10px] font-semibold text-brand-deep">
-                Totem — Pedido
-              </span>
-              <TotemVertical sizeClass="[--dw:132px] sm:[--dw:130px] lg:[--dw:150px]" statusLabel="Online">
-                <MenuScreen />
-              </TotemVertical>
-            </div>
-
-            <div className="flex shrink-0 flex-col items-center gap-4">
-              <span className="rounded-full border border-border-strong bg-white px-2.5 py-1 text-[10px] font-medium text-muted">
-                Pickup — Retirada
-              </span>
-              <DigitalDisplay sizeClass="[--dw:118px] sm:[--dw:120px] lg:[--dw:138px]" statusLabel="Sincronizando">
-                <WeatherScreen />
-              </DigitalDisplay>
-            </div>
-
-            <div className="flex shrink-0 flex-col items-center gap-4">
-              <span className="rounded-full border border-border-strong bg-white px-2.5 py-1 text-[10px] font-medium text-muted">
-                Cardápio digital
-              </span>
-              <TotemVertical sizeClass="[--dw:132px] sm:[--dw:130px] lg:[--dw:150px]" statusLabel="Online">
-                <PromoScreen />
-              </TotemVertical>
-            </div>
-
-            <div className="flex shrink-0 flex-col items-center gap-4">
-              <span className="rounded-full border border-border-strong bg-white px-2.5 py-1 text-[10px] font-medium text-muted">
-                Fila organizada
-              </span>
-              <LandscapeTV sizeClass="[--dw:170px] sm:[--dw:170px] lg:[--dw:200px]" mount="wall" statusLabel="Online">
-                <QueueScreen />
-              </LandscapeTV>
+        <div className="mt-9 overflow-hidden rounded-2xl border border-[#303946] bg-[#171D26] shadow-lift">
+          <div className="border-b border-white/10 px-4 py-3 sm:px-5">
+            <p className="text-[10px] font-medium text-white/45">Interface ilustrativa · dados e estados de exemplo</p>
+            <div
+              className="mt-3 flex gap-1.5 overflow-x-auto pb-1 [scrollbar-width:thin]"
+              role="tablist"
+              aria-label="Módulos ilustrativos da plataforma Autofluxe"
+              aria-orientation="horizontal"
+            >
+              {MODULES.map((module, index) => {
+                const Icon = module.icon;
+                const selected = index === active;
+                return (
+                  <button
+                    key={module.id}
+                    ref={(element) => {
+                      tabRefs.current[index] = element;
+                    }}
+                    id={"platform-tab-" + module.id}
+                    type="button"
+                    role="tab"
+                    aria-selected={selected}
+                    aria-controls="platform-module-panel"
+                    tabIndex={selected ? 0 : -1}
+                    onClick={() => setActive(index)}
+                    onKeyDown={(event) => handleTabKeyDown(event, index)}
+                    className={[
+                      "inline-flex shrink-0 items-center gap-2 rounded-lg px-3 py-2 text-[11px] font-medium transition-colors focus-visible:outline-2 focus-visible:outline-signal",
+                      selected ? "bg-white text-ink" : "text-white/60 hover:bg-white/[0.08] hover:text-white",
+                    ].join(" ")}
+                  >
+                    <Icon size={14} aria-hidden="true" />
+                    {module.label}
+                  </button>
+                );
+              })}
             </div>
           </div>
+
+          <div
+            id="platform-module-panel"
+            role="tabpanel"
+            aria-labelledby={"platform-tab-" + current.id}
+            tabIndex={0}
+            className="min-h-[340px] p-4 sm:p-7"
+          >
+            <AnimatePresence mode="wait" initial={false}>
+              <motion.div
+                key={current.id}
+                initial={reduceMotion ? false : { opacity: 0, y: 8 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={reduceMotion ? undefined : { opacity: 0, y: -6 }}
+                transition={{ duration: reduceMotion ? 0 : 0.22, ease: "easeOut" }}
+                className="grid gap-6 md:grid-cols-[0.8fr_1.2fr] md:items-center"
+              >
+                <div className="max-w-[420px]">
+                  <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br from-[#FFA000] to-[#E02010] text-white">
+                    <ActiveIcon size={19} aria-hidden="true" />
+                  </span>
+                  <h3 className="mt-4 font-display text-xl font-bold text-white sm:text-2xl">{current.title}</h3>
+                  <p className="mt-2 text-sm leading-relaxed text-white/60">{current.description}</p>
+                </div>
+
+                <div className="rounded-xl border border-white/10 bg-[#202833] p-3 sm:p-4">
+                  <div className="flex items-center justify-between gap-3 border-b border-white/10 pb-3">
+                    <div>
+                      <p className="text-xs font-semibold text-white">{current.label}</p>
+                      <p className="mt-1 text-[10px] text-white/45">Unidade demonstrativa</p>
+                    </div>
+                    <span className="rounded-full bg-white/[0.07] px-2.5 py-1 font-mono text-[9px] text-white/55">EXEMPLO</span>
+                  </div>
+
+                  {current.chart && (
+                    <div className="mt-4 flex h-20 items-end gap-2 rounded-lg border border-white/[0.07] bg-[#171D26] px-3 pb-2 pt-3" role="img" aria-label="Gráfico demonstrativo, sem métricas reais">
+                      {[38, 56, 45, 76, 61, 88, 68, 94, 72, 84, 57, 78].map((height, index) => (
+                        <span key={index} className="flex-1 rounded-t-sm bg-gradient-to-t from-[#E8540C] to-[#FFA000] opacity-80" style={{ height: height + "%" }} />
+                      ))}
+                    </div>
+                  )}
+
+                  <ul className="mt-2 divide-y divide-white/[0.08]">
+                    {current.rows.map((row) => (
+                      <li key={row.name} className="flex flex-wrap items-center justify-between gap-2 py-3">
+                        <span>
+                          <span className="block text-[11px] font-medium text-white/90">{row.name}</span>
+                          <span className="mt-0.5 block text-[10px] text-white/45">{row.detail}</span>
+                        </span>
+                        <span className="rounded-full border border-white/10 px-2 py-1 text-[9px] text-white/55">{row.status}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              </motion.div>
+            </AnimatePresence>
+          </div>
         </div>
+        <p className="mt-3 text-xs leading-relaxed text-muted-2">
+          A disponibilidade de módulos, integrações e equipamentos deve ser confirmada para cada operação.
+        </p>
       </div>
     </section>
   );

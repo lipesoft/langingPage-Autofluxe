@@ -20,6 +20,7 @@ interface ButtonProps {
   href?: string;
   onClick?: MouseEventHandler;
   type?: "button" | "submit";
+  disabled?: boolean;
   "aria-label"?: string;
 }
 
@@ -30,6 +31,7 @@ export default function Button({
   href,
   onClick,
   type = "button",
+  disabled = false,
   ...rest
 }: ButtonProps) {
   const classes = [base, variants[variant], className].join(" ");
@@ -43,7 +45,7 @@ export default function Button({
   }
 
   return (
-    <button type={type} className={classes} onClick={onClick} {...rest}>
+    <button type={type} className={classes} onClick={onClick} disabled={disabled} {...rest}>
       {children}
     </button>
   );

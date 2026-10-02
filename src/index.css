@@ -10,6 +10,7 @@
   html {
     scroll-behavior: smooth;
     color-scheme: light;
+    scroll-padding-top: 84px;
   }
 
   body {
@@ -21,6 +22,10 @@
   h1, h2, h3, h4 {
     @apply font-display;
     letter-spacing: -0.02em;
+  }
+
+  section[id] {
+    scroll-margin-top: 76px;
   }
 
   ::selection {
@@ -55,7 +60,7 @@
     background-image:
       linear-gradient(to right, rgba(36, 44, 55, 0.055) 1px, transparent 1px),
       linear-gradient(to bottom, rgba(36, 44, 55, 0.055) 1px, transparent 1px);
-    background-size: 56px 56px;
+    background-size: 60px 60px;
   }
 
   .brand-gradient {
@@ -63,7 +68,7 @@
   }
 
   .brand-gradient-text {
-    background-image: linear-gradient(135deg, #FFA000 0%, #F56A0A 55%, #E02010 100%);
+    background-image: linear-gradient(135deg, #C94710 0%, #C83E14 55%, #B62416 100%);
     -webkit-background-clip: text;
     background-clip: text;
     color: transparent;
@@ -80,6 +85,10 @@
   .mask-fade-x {
     mask-image: linear-gradient(to right, transparent, black 8%, black 92%, transparent);
     -webkit-mask-image: linear-gradient(to right, transparent, black 8%, black 92%, transparent);
+  }
+
+  .flow-node-glow {
+    box-shadow: 0 0 0 4px rgba(232, 84, 12, 0.08), 0 12px 30px -24px rgba(36, 44, 55, 0.6);
   }
 }
 

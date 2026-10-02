@@ -22,16 +22,25 @@ export default function Navbar() {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
+  useEffect(() => {
+    if (!open) return;
+    const closeOnEscape = (event: KeyboardEvent) => {
+      if (event.key === "Escape") setOpen(false);
+    };
+    window.addEventListener("keydown", closeOnEscape);
+    return () => window.removeEventListener("keydown", closeOnEscape);
+  }, [open]);
+
   const headerClass = [
     "fixed inset-x-0 top-0 z-50 border-b transition-all duration-300",
     scrolled
       ? "border-border bg-white/95 shadow-[0_10px_30px_-22px_rgba(36,44,55,0.48)] backdrop-blur-md"
-      : "border-transparent bg-white/85 backdrop-blur-sm",
+      : "border-transparent bg-white/55 backdrop-blur-sm",
   ].join(" ");
 
   return (
     <header className={headerClass}>
-      <nav className="mx-auto flex max-w-content items-center justify-between px-5 py-3 sm:px-8 sm:py-3.5">
+      <nav aria-label="Navegação principal" className="mx-auto flex max-w-content items-center justify-between px-5 py-2.5 sm:px-8 sm:py-3">
         <a href="#top" className="block w-[148px] sm:w-[166px]" aria-label="Autofluxe — início">
           <BrandLogo />
         </a>
@@ -53,17 +62,23 @@ export default function Navbar() {
         </div>
 
         <button
-          className="text-ink lg:hidden"
+          type="button"
+          className="inline-flex h-10 w-10 items-center justify-center rounded-md text-ink transition-colors hover:bg-[#FFF1E6] focus-visible:outline-2 focus-visible:outline-signal lg:hidden"
           onClick={() => setOpen((value) => !value)}
           aria-label={open ? "Fechar menu" : "Abrir menu"}
           aria-expanded={open}
+          aria-controls="mobile-navigation"
         >
           {open ? <X size={22} /> : <Menu size={22} />}
         </button>
       </nav>
 
-      {open && (
-        <div className="border-t border-border bg-white px-5 py-5 lg:hidden">
+      <nav
+        id="mobile-navigation"
+        aria-label="Navegação mobile"
+        hidden={!open}
+        className="border-t border-border bg-white px-5 py-5 shadow-[0_18px_30px_-28px_rgba(36,44,55,0.55)] lg:hidden"
+      >
           <ul className="flex flex-col gap-4">
             {LINKS.map((link) => (
               <li key={link.href}>
@@ -80,8 +95,7 @@ export default function Navbar() {
           <Button href="#contato" variant="primary" className="mt-5 w-full" onClick={() => setOpen(false)}>
             Solicitar demonstração
           </Button>
-        </div>
-      )}
+      </nav>
     </header>
   );
 }
