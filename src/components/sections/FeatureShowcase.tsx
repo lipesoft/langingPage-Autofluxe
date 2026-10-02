@@ -1,6 +1,6 @@
 import { Image, Youtube, Rss, Clock3, MapPin, Film, BarChart3, PackagePlus } from "lucide-react";
 import LandscapeTV from "../devices/LandscapeTV";
-import { SplitZonesScreen } from "../devices/screens";
+import { OperationOverviewScreen } from "../devices/screens/ContentScreens";
 import StatusDot from "../ui/StatusDot";
 
 const FORMATS = [
@@ -149,7 +149,7 @@ export default function FeatureShowcase() {
               </p>
             </div>
             <LandscapeTV sizeClass="[--dw:220px]" className="sm:ml-auto">
-              <SplitZonesScreen />
+              <OperationOverviewScreen />
             </LandscapeTV>
           </div>
 

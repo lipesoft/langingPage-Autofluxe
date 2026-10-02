@@ -1,13 +1,10 @@
-import { KeyboardEvent, useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
+import type { KeyboardEvent } from "react";
 import LandscapeTV from "../devices/LandscapeTV";
 import TotemVertical from "../devices/TotemVertical";
-import {
-  MenuScreen,
-  PromoScreen,
-  CorporateScreen,
-  QueueScreen,
-  WeatherScreen,
-} from "../devices/screens";
+import { OperationOverviewScreen, PromoScreen } from "../devices/screens/ContentScreens";
+import { MenuScreen } from "../devices/screens/MenuScreen";
+import { PickupScreen } from "../devices/screens/PickupScreen";
 
 const CASES = [
   {
@@ -32,7 +29,7 @@ const CASES = [
     problem: "Dúvidas sobre o andamento do pedido no balcão.",
     resolution: "Uma tela de retirada pode apresentar os pedidos prontos com mais clareza.",
     device: "tv",
-    screen: <QueueScreen />,
+    screen: <PickupScreen />,
   },
   {
     key: "cafeterias",
@@ -48,15 +45,15 @@ const CASES = [
     problem: "A equipe precisa explicar o status de cada pedido.",
     resolution: "O estágio de retirada aparece como parte do mesmo fluxo do pedido.",
     device: "tv",
-    screen: <CorporateScreen />,
+    screen: <PickupScreen />,
   },
   {
     key: "franquias",
     label: "Franquias",
     problem: "Cada unidade pode ter pontos e rotinas diferentes.",
     resolution: "A interface ilustrativa apresenta uma visão organizada por unidade.",
-    device: "totem",
-    screen: <WeatherScreen />,
+    device: "tv",
+    screen: <OperationOverviewScreen />,
   },
 ];
 

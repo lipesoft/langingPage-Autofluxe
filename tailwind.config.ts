@@ -21,6 +21,11 @@ export default {
         success: "#22A861",
         warning: "#E88912",
         danger: "#D9362B",
+        screen: {
+          DEFAULT: "#171C26",
+          raised: "#202833",
+          muted: "#AFB8C7",
+        },
       },
       fontFamily: {
         display: ["'Manrope'", "system-ui", "sans-serif"],

@@ -12,7 +12,10 @@ import {
 import { motion } from "framer-motion";
 import usePrefersReducedMotion from "../../hooks/usePrefersReducedMotion";
 import ScreenPlayer from "../devices/ScreenPlayer";
-import { MenuScreen, PromoScreen, VideoScreen, CorporateScreen } from "../devices/screens";
+import { PromoScreen } from "../devices/screens/ContentScreens";
+import { KdsScreen } from "../devices/screens/KdsScreen";
+import { MenuScreen } from "../devices/screens/MenuScreen";
+import { PickupScreen } from "../devices/screens/PickupScreen";
 import StatusDot from "../ui/StatusDot";
 import Tooltip from "../ui/Tooltip";
 
@@ -29,8 +32,8 @@ const NAV = [
 const FLOWS = [
   { title: "Cardápio", screen: <MenuScreen />, live: false, hint: "Conteúdo de demonstração" },
   { title: "Oferta do dia", screen: <PromoScreen />, live: false, hint: "Conteúdo de demonstração" },
-  { title: "Retirada", screen: <VideoScreen />, hint: "Tela ilustrativa" },
-  { title: "Cozinha", screen: <CorporateScreen />, hint: "Tela ilustrativa" },
+  { title: "Retirada", screen: <PickupScreen />, hint: "Tela ilustrativa" },
+  { title: "Cozinha · KDS", screen: <KdsScreen />, hint: "Tela ilustrativa" },
 ];
 
 const DEVICES = [
