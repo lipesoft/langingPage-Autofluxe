@@ -1,3 +1,4 @@
+// Email construction and server-side lead validation for the Vercel function.
 const FIELD_LIMITS = {
   name: 120,
   company: 160,

@@ -2,7 +2,7 @@ import {
   getLeadContext,
   renderLeadEmail,
   validateContactLead,
-} from "../src/server/contactEmail.ts";
+} from "./_lib/contactEmail.ts";
 import { CONTACT_EMAIL } from "../src/siteConfig.ts";
 
 const MAX_BODY_BYTES = 8 * 1024;
