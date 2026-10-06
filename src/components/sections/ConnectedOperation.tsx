@@ -1,10 +1,12 @@
 import type { PropsWithChildren } from "react";
 import { CircleDot } from "lucide-react";
+import { motion } from "framer-motion";
 import LandscapeTV from "../devices/LandscapeTV";
 import TotemVertical from "../devices/TotemVertical";
 import { KdsScreen } from "../devices/screens/KdsScreen";
 import { MenuScreen } from "../devices/screens/MenuScreen";
 import { PickupScreen } from "../devices/screens/PickupScreen";
+import usePrefersReducedMotion from "../../hooks/usePrefersReducedMotion";
 
 function DeviceStage({
   step,
@@ -35,6 +37,8 @@ function DeviceStage({
 }
 
 export default function ConnectedOperation() {
+  const reduceMotion = usePrefersReducedMotion();
+
   return (
     <figure
       role="img"
@@ -48,12 +52,26 @@ export default function ConnectedOperation() {
           </span>
           <span className="min-w-0">
             <span className="block text-[11px] font-bold text-ink">Um pedido, três pontos</span>
-            <span className="mt-0.5 block truncate text-[9px] text-muted">Pedido #042</span>
+            <span className="mt-0.5 block truncate text-[10px] text-muted">Pedido #042</span>
           </span>
         </span>
-        <span className="shrink-0 rounded-full border border-border bg-white px-2.5 py-1 text-[9px] font-medium text-muted">
+        <span className="shrink-0 rounded-full border border-border bg-white px-2.5 py-1 text-[10px] font-medium text-muted">
           Interface ilustrativa
         </span>
+      </div>
+
+      <div className="relative mx-4 mb-1 mt-1 flex items-center justify-between" aria-hidden="true">
+        <span className="absolute left-1 right-1 top-1/2 h-px -translate-y-1/2 bg-border-strong" />
+        <motion.span
+          className="absolute left-1 right-1 top-1/2 h-px origin-left brand-gradient"
+          style={{ marginTop: -0.5 }}
+          initial={reduceMotion ? false : { scaleX: 0 }}
+          animate={{ scaleX: 1 }}
+          transition={{ duration: reduceMotion ? 0 : 0.65, delay: reduceMotion ? 0 : 0.46, ease: "easeInOut" }}
+        />
+        {["Totem", "KDS", "Retirada"].map((label) => (
+          <span key={label} className="relative z-10 h-2 w-2 rounded-full border border-white bg-brand-deep shadow-[0_0_0_2px_#FFF8F2]" />
+        ))}
       </div>
 
       <ol className="grid grid-cols-[minmax(112px,0.86fr)_minmax(0,1fr)] grid-rows-2 items-stretch gap-x-2 gap-y-5 min-[1200px]:grid-cols-3 min-[1200px]:grid-rows-1 min-[1200px]:gap-x-3">
@@ -76,9 +94,6 @@ export default function ConnectedOperation() {
         </DeviceStage>
       </ol>
 
-      <figcaption className="mt-3 border-t border-border/70 pt-2.5 text-center text-[10px] leading-relaxed text-muted-2">
-        Pedido #042 atravessa o fluxo; nomes, itens e estados são exemplos visuais.
-      </figcaption>
     </figure>
   );
 }

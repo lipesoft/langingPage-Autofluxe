@@ -21,7 +21,6 @@ type ModuleView = {
   title: string;
   description: string;
   rows: Array<{ name: string; detail: string; status: string }>;
-  chart?: boolean;
 };
 
 const MODULES: ModuleView[] = [
@@ -116,11 +115,10 @@ const MODULES: ModuleView[] = [
     title: "Uma leitura visual da operação",
     description: "Exemplo de como informações da rotina podem aparecer no painel.",
     rows: [
-      { name: "Pedidos por período", detail: "Gráfico ilustrativo", status: "Exemplo" },
-      { name: "Tempo de preparo", detail: "Indicador ilustrativo", status: "Exemplo" },
-      { name: "Comparativo por unidade", detail: "Visão ilustrativa", status: "Exemplo" },
+      { name: "Pedidos por período", detail: "Agrupamento de exemplo", status: "Relatório" },
+      { name: "Tempo de preparo", detail: "Indicador de exemplo", status: "Relatório" },
+      { name: "Comparativo por unidade", detail: "Visão de exemplo", status: "Relatório" },
     ],
-    chart: true,
   },
   {
     id: "unidades",
@@ -152,8 +150,19 @@ export default function PlatformStrip() {
     else return;
 
     event.preventDefault();
-    setActive(nextIndex);
+    selectTab(nextIndex);
     tabRefs.current[nextIndex]?.focus();
+  }
+
+  function selectTab(index: number) {
+    setActive(index);
+    window.requestAnimationFrame(() => {
+      tabRefs.current[index]?.scrollIntoView({
+        behavior: reduceMotion ? "auto" : "smooth",
+        block: "nearest",
+        inline: "nearest",
+      });
+    });
   }
 
   return (
@@ -171,7 +180,7 @@ export default function PlatformStrip() {
 
         <div className="mt-9 overflow-hidden rounded-2xl border border-[#303946] bg-[#171D26] shadow-lift">
           <div className="border-b border-white/10 px-4 py-3 sm:px-5">
-            <p className="text-[10px] font-medium text-white/45">Interface ilustrativa · dados e estados de exemplo</p>
+            <p className="text-xs font-medium text-white/55">Módulos apresentados na demonstração</p>
             <div
               className="mt-3 flex gap-1.5 overflow-x-auto pb-1 [scrollbar-width:thin]"
               role="tablist"
@@ -193,15 +202,16 @@ export default function PlatformStrip() {
                     aria-selected={selected}
                     aria-controls="platform-module-panel"
                     tabIndex={selected ? 0 : -1}
-                    onClick={() => setActive(index)}
+                    onClick={() => selectTab(index)}
                     onKeyDown={(event) => handleTabKeyDown(event, index)}
                     className={[
-                      "inline-flex shrink-0 items-center gap-2 rounded-lg px-3 py-2 text-[11px] font-medium transition-colors focus-visible:outline-2 focus-visible:outline-signal",
-                      selected ? "bg-white text-ink" : "text-white/60 hover:bg-white/[0.08] hover:text-white",
+                      "relative isolate inline-flex min-h-11 shrink-0 items-center gap-2 rounded-lg px-3 py-2.5 text-xs font-medium transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-signal",
+                      selected ? "text-ink" : "text-white/65 hover:bg-white/[0.08] hover:text-white",
                     ].join(" ")}
                   >
-                    <Icon size={14} aria-hidden="true" />
-                    {module.label}
+                    {selected && <motion.span layoutId="platform-tab-indicator" className="absolute inset-0 -z-10 rounded-lg bg-white shadow-sm" transition={{ duration: reduceMotion ? 0 : 0.2, ease: "easeOut" }} />}
+                    <Icon size={15} aria-hidden="true" />
+                    <span>{module.label}</span>
                   </button>
                 );
               })}
@@ -218,10 +228,10 @@ export default function PlatformStrip() {
             <AnimatePresence mode="wait" initial={false}>
               <motion.div
                 key={current.id}
-                initial={reduceMotion ? false : { opacity: 0, y: 8 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={reduceMotion ? undefined : { opacity: 0, y: -6 }}
-                transition={{ duration: reduceMotion ? 0 : 0.22, ease: "easeOut" }}
+                initial={reduceMotion ? false : { opacity: 0, x: 8 }}
+                animate={{ opacity: 1, x: 0 }}
+                exit={reduceMotion ? undefined : { opacity: 0, x: -8 }}
+                transition={{ duration: reduceMotion ? 0 : 0.2, ease: "easeOut" }}
                 className="grid gap-6 md:grid-cols-[0.8fr_1.2fr] md:items-center"
               >
                 <div className="max-w-[420px]">
@@ -238,25 +248,17 @@ export default function PlatformStrip() {
                       <p className="text-xs font-semibold text-white">{current.label}</p>
                       <p className="mt-1 text-[10px] text-white/45">Unidade demonstrativa</p>
                     </div>
-                    <span className="rounded-full bg-white/[0.07] px-2.5 py-1 font-mono text-[9px] text-white/55">EXEMPLO</span>
+                    <span className="rounded-full bg-white/[0.07] px-2.5 py-1 font-mono text-[10px] text-white/55">EXEMPLO</span>
                   </div>
 
-                  {current.chart && (
-                    <div className="mt-4 flex h-20 items-end gap-2 rounded-lg border border-white/[0.07] bg-[#171D26] px-3 pb-2 pt-3" role="img" aria-label="Gráfico demonstrativo, sem métricas reais">
-                      {[38, 56, 45, 76, 61, 88, 68, 94, 72, 84, 57, 78].map((height, index) => (
-                        <span key={index} className="flex-1 rounded-t-sm bg-gradient-to-t from-[#E8540C] to-[#FFA000] opacity-80" style={{ height: height + "%" }} />
-                      ))}
-                    </div>
-                  )}
-
-                  <ul className="mt-2 divide-y divide-white/[0.08]">
+                  <ul className="mt-4 divide-y divide-white/[0.08]">
                     {current.rows.map((row) => (
                       <li key={row.name} className="flex flex-wrap items-center justify-between gap-2 py-3">
                         <span>
                           <span className="block text-[11px] font-medium text-white/90">{row.name}</span>
                           <span className="mt-0.5 block text-[10px] text-white/45">{row.detail}</span>
                         </span>
-                        <span className="rounded-full border border-white/10 px-2 py-1 text-[9px] text-white/55">{row.status}</span>
+                        <span className="rounded-full border border-white/10 px-2 py-1 text-[10px] text-white/55">{row.status}</span>
                       </li>
                     ))}
                   </ul>
@@ -265,9 +267,6 @@ export default function PlatformStrip() {
             </AnimatePresence>
           </div>
         </div>
-        <p className="mt-3 text-xs leading-relaxed text-muted-2">
-          A disponibilidade de módulos, integrações e equipamentos deve ser confirmada para cada operação.
-        </p>
       </div>
     </section>
   );

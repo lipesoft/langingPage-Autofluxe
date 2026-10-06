@@ -8,7 +8,6 @@ import PlatformStrip from "./components/sections/PlatformStrip";
 import FeatureShowcase from "./components/sections/FeatureShowcase";
 import DashboardDemo from "./components/sections/DashboardDemo";
 import UseCases from "./components/sections/UseCases";
-import HowItWorks from "./components/sections/HowItWorks";
 import FAQ from "./components/sections/FAQ";
 import FinalCTA from "./components/sections/FinalCTA";
 
@@ -23,16 +22,21 @@ export default function App() {
 
   return (
     <div className="min-h-screen bg-paper text-ink">
+      <a
+        href="#main-content"
+        className="sr-only z-[60] rounded-md bg-white px-4 py-3 font-semibold text-ink shadow-lift focus:not-sr-only focus:fixed focus:left-4 focus:top-4"
+      >
+        Pular para o conteúdo
+      </a>
       <Navbar />
-      <main>
+      <main id="main-content" tabIndex={-1}>
         <Hero />
-        <ProofStrip />
         <OrderFlowDemo stage={orderStage} onStart={() => setOrderStage(0)} />
+        <ProofStrip />
         <PlatformStrip />
         <FeatureShowcase />
         <DashboardDemo orderStage={orderStage} />
         <UseCases />
-        <HowItWorks />
         <FAQ />
         <FinalCTA />
       </main>

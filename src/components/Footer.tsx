@@ -13,7 +13,7 @@ const COLUMNS = [
     title: "Operação",
     links: [
       { label: "Soluções", href: "#solucoes" },
-      { label: "Como funciona", href: "#como-funciona" },
+      { label: "Demonstração", href: "#demonstracao" },
       { label: "Perguntas frequentes", href: "#perguntas" },
     ],
   },
@@ -30,7 +30,7 @@ export default function Footer() {
         <div className="grid grid-cols-2 gap-9 sm:grid-cols-4 sm:gap-8">
           <div className="col-span-2 sm:col-span-1">
             <a href="#top" className="block w-[150px]" aria-label="Autofluxe — início">
-              <BrandLogo />
+              <BrandLogo loading="lazy" />
             </a>
             <p className="mt-4 max-w-[235px] text-[13px] leading-relaxed text-muted">
               Pedido, cozinha, retirada e gestão apresentados em um fluxo só.

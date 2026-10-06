@@ -9,15 +9,9 @@ import {
   PanelsTopLeft,
   Utensils,
 } from "lucide-react";
-import { motion } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
 import usePrefersReducedMotion from "../../hooks/usePrefersReducedMotion";
-import ScreenPlayer from "../devices/ScreenPlayer";
-import { PromoScreen } from "../devices/screens/ContentScreens";
-import { KdsScreen } from "../devices/screens/KdsScreen";
-import { MenuScreen } from "../devices/screens/MenuScreen";
-import { PickupScreen } from "../devices/screens/PickupScreen";
 import StatusDot from "../ui/StatusDot";
-import Tooltip from "../ui/Tooltip";
 
 const NAV = [
   { icon: LayoutDashboard, label: "Visão geral", active: true },
@@ -29,18 +23,11 @@ const NAV = [
   { icon: BarChart3, label: "Relatórios" },
 ];
 
-const FLOWS = [
-  { title: "Cardápio", screen: <MenuScreen />, live: false, hint: "Conteúdo de demonstração" },
-  { title: "Oferta do dia", screen: <PromoScreen />, live: false, hint: "Conteúdo de demonstração" },
-  { title: "Retirada", screen: <PickupScreen />, hint: "Tela ilustrativa" },
-  { title: "Cozinha · KDS", screen: <KdsScreen />, hint: "Tela ilustrativa" },
-];
-
 const DEVICES = [
-  { name: "Totem de entrada", location: "Unidade A · exemplo", status: "online" as const, sync: "agora" },
-  { name: "KDS da cozinha", location: "Unidade A · exemplo", status: "online" as const, sync: "agora" },
-  { name: "Painel de retirada", location: "Unidade A · exemplo", status: "syncing" as const, sync: "em atualização" },
-  { name: "Totem de atendimento", location: "Unidade B · exemplo", status: "offline" as const, sync: "sem sinal" },
+  { name: "Totem de entrada", location: "Unidade A", status: "online" as const, sync: "agora" },
+  { name: "KDS da cozinha", location: "Unidade A", status: "online" as const, sync: "agora" },
+  { name: "Painel de retirada", location: "Unidade A", status: "syncing" as const, sync: "em atualização" },
+  { name: "Totem de atendimento", location: "Unidade B", status: "offline" as const, sync: "sem sinal" },
 ];
 
 export default function DashboardDemo({ orderStage }: { orderStage: number }) {
@@ -62,7 +49,7 @@ export default function DashboardDemo({ orderStage }: { orderStage: number }) {
   const stats = [
     { label: "Pedidos ativos", value: String(activeOrders) },
     { label: "Pontos online", value: "12" },
-    { label: "Tempo médio", value: "08m" },
+    { label: "Tempo médio de preparo", value: "08m" },
   ];
 
   return (
@@ -71,22 +58,22 @@ export default function DashboardDemo({ orderStage }: { orderStage: number }) {
         <div className="max-w-[620px]">
           <p className="text-xs font-bold uppercase tracking-[0.16em] text-brand-deep">Visão da operação</p>
           <h2 className="mt-3 text-balance font-display text-[1.9rem] font-bold leading-tight text-ink sm:text-[2.35rem]">
-            O painel que coloca cada etapa no mesmo contexto.
+            Uma leitura central para acompanhar a operação.
           </h2>
           <p className="mt-4 text-[15px] leading-relaxed text-muted">
-            Uma visão central de pedidos, cozinha, dispositivos e retirada — apresentada aqui como demonstração de interface.
+            Veja como pedidos, pontos de atendimento e andamento podem aparecer em um painel. Os dados abaixo são demonstrativos, não vêm de uma loja conectada.
           </p>
         </div>
 
-        <div className="mt-10 overflow-hidden rounded-2xl border border-[#313A4A] bg-ink shadow-lift">
+        <div className="mt-9 overflow-hidden rounded-2xl border border-[#313A4A] bg-ink shadow-lift">
           <div className="flex flex-col lg:flex-row">
-            <nav
-              aria-label="Módulos ilustrativos"
-              className="flex shrink-0 gap-1 overflow-x-auto border-b border-white/10 bg-[#1D2330] p-3 lg:w-[210px] lg:flex-col lg:gap-1 lg:overflow-visible lg:border-b-0 lg:border-r lg:p-4"
+            <aside
+              aria-label="Áreas do painel ilustrativo"
+              className="flex shrink-0 gap-1 overflow-x-auto border-b border-white/10 bg-[#1D2330] p-3 lg:w-[190px] lg:flex-col lg:gap-1 lg:overflow-visible lg:border-b-0 lg:border-r lg:p-4"
             >
               {NAV.map((item) => {
                 const itemClass = [
-                  "flex shrink-0 items-center gap-2.5 whitespace-nowrap rounded-md px-3 py-2 text-[13px]",
+                  "flex min-h-11 shrink-0 items-center gap-2.5 whitespace-nowrap rounded-md px-3 py-2 text-xs",
                   item.active ? "bg-signal/15 text-signal-soft" : "text-[#AAB3C1]",
                 ].join(" ");
 
@@ -97,73 +84,60 @@ export default function DashboardDemo({ orderStage }: { orderStage: number }) {
                   </div>
                 );
               })}
-            </nav>
+            </aside>
 
             <div className="min-w-0 flex-1 p-4 sm:p-7 lg:p-8">
-              <p className="mb-5 rounded-lg border border-white/10 bg-white/[0.04] px-3 py-2 text-[10px] leading-relaxed text-white/55">
-                Dados, nomes e status desta tela são ilustrativos e não representam uma operação conectada.
-              </p>
               <div className="flex flex-wrap items-center justify-between gap-3">
                 <div>
                   <p className="text-sm text-[#D3D9E2]">Painel de demonstração</p>
-                  <p className="font-mono text-[11px] text-white/45">Unidade de exemplo · pedido #042</p>
+                  <p className="mt-1 font-mono text-xs text-white/55">Unidade de exemplo · pedido #042</p>
                 </div>
-                <div className="flex items-center gap-2 rounded-full border border-white/15 px-3 py-1.5 text-xs text-[#D3D9E2]">
-                  <MonitorCheck className="h-3.5 w-3.5 text-success" strokeWidth={1.8} aria-hidden="true" />
+                <div className="flex min-h-11 items-center gap-2 rounded-full border border-white/15 px-3 py-1.5 text-xs text-[#D3D9E2]">
+                  <MonitorCheck className="h-4 w-4 text-success" strokeWidth={1.8} aria-hidden="true" />
                   Fluxo ilustrado
                 </div>
               </div>
 
-              <div className="mt-6 grid grid-cols-3 gap-2 sm:gap-3">
+              <div className="mt-5 grid grid-cols-3 gap-2 sm:gap-3">
                 {stats.map((stat) => (
-                  <div key={stat.label} className="rounded-lg border border-white/10 bg-[#202735] p-3 sm:p-4">
-                    <motion.p
-                      key={stat.value}
-                      initial={reduceMotion ? false : { opacity: 0.55, y: 3 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      transition={{ duration: reduceMotion ? 0 : 0.22 }}
-                      className="font-display text-2xl font-bold tabular-nums text-paper sm:text-3xl"
-                      aria-live={stat.label === "Pedidos ativos" ? "polite" : undefined}
-                    >
-                      {stat.value}
-                    </motion.p>
-                    <p className="mt-1 text-[10px] leading-tight text-[#AAB3C1] sm:text-[11px]">{stat.label}</p>
+                  <div key={stat.label} className="min-h-[102px] rounded-lg border border-white/10 bg-[#202735] p-3 sm:p-4">
+                    <p className="font-display text-xl font-bold tabular-nums text-paper sm:text-3xl">{stat.value}</p>
+                    <p className="mt-1 text-xs leading-snug text-[#D3D9E2]">{stat.label}</p>
                   </div>
                 ))}
               </div>
 
-              <div className="mt-4 flex flex-wrap items-center justify-between gap-2 rounded-lg border border-signal/25 bg-signal/10 px-3.5 py-3">
-                <span className="text-[11px] font-semibold text-white/85" aria-live="polite">{orderLabel}</span>
-                <span className="font-mono text-[9px] uppercase tracking-wide text-signal-soft">Simulação</span>
+              <div className="mt-4 flex min-h-[52px] flex-wrap items-center justify-between gap-2 rounded-lg border border-signal/25 bg-signal/10 px-3.5 py-3">
+                <AnimatePresence mode="wait" initial={false}>
+                  <motion.span
+                    key={orderLabel}
+                    className="text-xs font-semibold text-white/90"
+                    aria-live="polite"
+                    initial={reduceMotion ? false : { opacity: 0, x: 4 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    exit={reduceMotion ? undefined : { opacity: 0, x: -4 }}
+                    transition={{ duration: reduceMotion ? 0 : 0.18 }}
+                  >
+                    {orderLabel}
+                  </motion.span>
+                </AnimatePresence>
+                <span className="font-mono text-xs uppercase tracking-wide text-signal-soft">Simulação</span>
               </div>
 
-              <div className="mt-7">
-                <p className="text-[13px] font-medium text-paper/90">Áreas da operação</p>
-                <div className="mt-3 grid grid-cols-2 gap-3 sm:grid-cols-4">
-                  {FLOWS.map((flow) => (
-                    <div key={flow.title}>
-                      <Tooltip label={flow.hint} className="relative block w-full">
-                        <ScreenPlayer sizeClass="[--dw:100%]" ratio="video" live={flow.live}>
-                          {flow.screen}
-                        </ScreenPlayer>
-                      </Tooltip>
-                      <p className="mt-2 truncate text-[11px] text-[#AAB3C1]">{flow.title}</p>
-                    </div>
-                  ))}
+              <div className="mt-6">
+                <div className="flex flex-wrap items-baseline justify-between gap-2">
+                  <p className="text-sm font-medium text-paper/90">Pontos da operação</p>
+                  <p className="text-xs text-white/45">estados de exemplo</p>
                 </div>
-              </div>
-
-              <div className="mt-7">
-                <p className="text-[13px] font-medium text-paper/90">Pontos da operação · exemplo</p>
                 <ul className="mt-3 divide-y divide-white/10 overflow-hidden rounded-lg border border-white/10">
                   {DEVICES.map((device) => (
-                    <li key={device.name} className="flex flex-wrap items-center justify-between gap-2 bg-[#202735] px-3 py-3 text-[13px] sm:px-4">
+                    <li key={device.name} className="flex min-h-[60px] flex-wrap items-center justify-between gap-2 bg-[#202735] px-3 py-3 text-sm sm:px-4">
                       <span>
                         <span className="block text-paper/90">{device.name}</span>
-                        <span className="block text-[11px] text-white/45">{device.location}</span>
+                        <span className="block text-xs text-white/55">{device.location}</span>
                       </span>
                       <span className="flex items-center gap-3 sm:gap-4">
-                        <span className="font-mono text-[10px] text-white/45 sm:text-[11px]">{device.sync}</span>
+                        <span className="text-xs text-white/55">{device.sync}</span>
                         <StatusDot status={device.status} className="text-[#D3D9E2]" />
                       </span>
                     </li>
