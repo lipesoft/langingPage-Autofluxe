@@ -1,1 +1,1 @@
-export { CONTACT_EMAIL } from "../api/_lib/siteConfig.ts";
+export const CONTACT_EMAIL = "autofluxe.totens@gmail.com";
