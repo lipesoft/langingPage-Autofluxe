@@ -3,7 +3,7 @@ import {
   renderLeadEmail,
   validateContactLead,
 } from "./_lib/contactEmail.ts";
-import { CONTACT_EMAIL } from "../src/siteConfig.ts";
+import { CONTACT_EMAIL } from "./_lib/siteConfig.ts";
 
 const MAX_BODY_BYTES = 8 * 1024;
 const JSON_HEADERS = {
