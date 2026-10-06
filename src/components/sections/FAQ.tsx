@@ -17,7 +17,7 @@ const QUESTIONS = [
   {
     question: "Como posso conhecer o Autofluxe no meu cenário?",
     answer:
-      "Preencha o formulário de contato. Seu aplicativo de e-mail será aberto com uma mensagem pronta para você revisar e enviar à equipe.",
+      "Preencha o formulário de contato. A solicitação é enviada por e-mail à equipe Autofluxe; se houver uma falha temporária, a página oferece o endereço comercial como alternativa.",
   },
 ];
 
@@ -38,7 +38,7 @@ export default function FAQ() {
         <div className="divide-y divide-border border-y border-border">
           {QUESTIONS.map((item, index) => (
             <details key={item.question} className="group py-4" open={index === 0}>
-              <summary className="flex cursor-pointer list-none items-center justify-between gap-4 py-1 text-left text-sm font-semibold text-ink marker:hidden focus-visible:outline-2 focus-visible:outline-signal">
+              <summary className="flex min-h-11 cursor-pointer list-none items-center justify-between gap-4 py-1 text-left text-sm font-semibold text-ink marker:hidden focus-visible:outline-2 focus-visible:outline-signal">
                 {item.question}
                 <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full border border-border text-brand-deep transition-transform group-open:rotate-45" aria-hidden="true">
                   +
