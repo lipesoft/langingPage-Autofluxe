@@ -12,7 +12,7 @@ export default function BrandLogo({ className = "", loading = "eager" }: BrandLo
       height={400}
       loading={loading}
       decoding="async"
-      className={"block h-auto w-full object-contain mix-blend-multiply " + className}
+      className={"block h-auto w-full object-contain " + className}
     />
   );
 }

@@ -38,8 +38,8 @@ export default function Navbar() {
   const headerClass = [
     "fixed inset-x-0 top-0 z-50 border-b transition-[background-color,border-color,box-shadow,backdrop-filter] duration-300",
     scrolled
-      ? "border-border bg-white/95 shadow-[0_10px_30px_-22px_rgba(36,44,55,0.48)] backdrop-blur-md"
-      : "border-transparent bg-white/55 backdrop-blur-sm",
+      ? "border-border bg-white shadow-[0_10px_30px_-22px_rgba(36,44,55,0.48)] backdrop-blur-md"
+      : "border-border bg-white",
   ].join(" ");
 
   return (
