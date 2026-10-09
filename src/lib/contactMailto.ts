@@ -10,7 +10,7 @@ type ContactValues = {
 };
 
 export function buildContactMailto(values: ContactValues) {
-  const subject = `Solicitação de demonstração — ${values.company || values.name} | Autofluxe`;
+  const subject = `Solicitação de demonstração | ${values.company || values.name} | Autofluxe`;
   const body = [
     "Olá, equipe Autofluxe!",
     "",
@@ -25,7 +25,7 @@ export function buildContactMailto(values: ContactValues) {
     "",
     "Origem: Landing page Autofluxe",
     "",
-    "Autofluxe — Seu restaurante. Um fluxo só.",
+    "Autofluxe | Seu restaurante. Um fluxo só.",
   ].join("\r\n");
 
   return `mailto:${CONTACT_EMAIL}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;

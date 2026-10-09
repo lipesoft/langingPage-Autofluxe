@@ -1,15 +1,15 @@
 const CLARIFICATIONS = [
   {
-    title: "Simulação visual",
-    text: "Nenhum pedido é enviado a um restaurante por esta demonstração.",
+    title: "Um pedido, uma sequência",
+    text: "Do atendimento à retirada, cada etapa recebe o contexto necessário para continuar o fluxo.",
   },
   {
-    title: "Telas de exemplo",
-    text: "Nomes, números e estados ilustram o fluxo; não representam uma operação conectada.",
+    title: "Mais clareza para a equipe",
+    text: "Atendimento, cozinha e balcão acompanham o pedido sem depender de mensagens desencontradas.",
   },
   {
-    title: "Escopo por operação",
-    text: "Disponibilidade de módulos, integrações e equipamentos é confirmada com a equipe.",
+    title: "Uma experiência mais simples",
+    text: "O cliente faz o pedido com autonomia e encontra informações mais claras sobre o próximo passo.",
   },
 ];
 

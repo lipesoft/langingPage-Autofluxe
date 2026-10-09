@@ -45,7 +45,7 @@ export default function Navbar() {
   return (
     <header className={headerClass}>
       <nav aria-label="Navegação principal" className="mx-auto flex max-w-content items-center justify-between px-5 py-2.5 sm:px-8 sm:py-3">
-        <a href="#top" className="block w-[148px] sm:w-[166px]" aria-label="Autofluxe — início">
+        <a href="#top" className="block w-[148px] sm:w-[166px]" aria-label="Autofluxe, início">
           <BrandLogo loading="eager" />
         </a>
 
@@ -61,7 +61,7 @@ export default function Navbar() {
 
         <div className="hidden lg:block">
           <Button href="#contato" variant="primary" className="!px-4 !py-2.5 text-[13px]">
-            Solicitar demonstração
+            Falar com um especialista
           </Button>
         </div>
 
@@ -94,7 +94,7 @@ export default function Navbar() {
             ))}
           </ul>
           <Button href="#contato" variant="primary" className="mt-5 w-full" onClick={() => setOpen(false)}>
-            Solicitar demonstração
+            Falar com um especialista
           </Button>
       </nav>
     </header>

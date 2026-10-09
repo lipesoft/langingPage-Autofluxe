@@ -96,9 +96,9 @@ export default function UseCases() {
   return (
     <section id="solucoes" className="border-t border-border bg-surface-elevated py-20 sm:py-24">
       <div className="mx-auto max-w-content px-5 sm:px-8">
-        <p className="text-xs font-bold uppercase tracking-[0.16em] text-brand-deep">Soluções</p>
+        <p className="text-xs font-bold uppercase tracking-[0.16em] text-brand-deep">Feito para a sua operação</p>
         <h2 className="mt-3 max-w-[620px] text-balance font-display text-[1.9rem] font-bold leading-tight text-ink sm:text-[2.3rem]">
-          Diferentes rotinas, um fluxo a avaliar.
+          Veja onde o Autofluxe pode destravar sua rotina.
         </h2>
 
         <div className="mt-9 grid gap-6 lg:grid-cols-[250px_1fr] lg:gap-10">
@@ -162,7 +162,7 @@ export default function UseCases() {
                   <p className="text-xs font-bold uppercase tracking-wide text-muted-2">Ideal para avaliar</p>
                   <p className="mt-2 text-sm leading-relaxed text-ink">{current.idealFor}</p>
                   <a href="#contato" className="mt-5 inline-flex min-h-11 items-center text-sm font-semibold text-brand-deep underline decoration-[#EBC6AE] underline-offset-4 transition-colors hover:text-brand-red focus-visible:outline-2 focus-visible:outline-signal">
-                    Solicitar demonstração
+                    Conversar sobre este cenário
                   </a>
                 </aside>
               </motion.div>

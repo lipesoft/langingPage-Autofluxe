@@ -29,7 +29,7 @@ export default function Footer() {
       <div className="mx-auto max-w-content px-5 sm:px-8">
         <div className="grid grid-cols-2 gap-9 sm:grid-cols-4 sm:gap-8">
           <div className="col-span-2 sm:col-span-1">
-            <a href="#top" className="block w-[150px]" aria-label="Autofluxe — início">
+            <a href="#top" className="block w-[150px]" aria-label="Autofluxe, início">
               <BrandLogo loading="lazy" />
             </a>
             <p className="mt-4 max-w-[235px] text-[13px] leading-relaxed text-muted">
