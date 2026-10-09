@@ -35,25 +35,25 @@ export default function Hero() {
         >
           <motion.div variants={contentItem} className="mb-5 inline-flex min-h-11 items-center gap-2 rounded-full border border-[#FFD9BF] bg-white/90 px-3 py-2 text-xs font-semibold text-brand-deep shadow-[0_10px_25px_-22px_rgba(224,84,12,0.8)]">
             <Activity size={14} aria-hidden="true" />
-            Operação conectada em um fluxo
+            Mais clareza em cada pedido
           </motion.div>
           <motion.h1 variants={contentItem} className="text-balance font-display text-[2.65rem] font-extrabold leading-[1.02] tracking-[-0.04em] text-ink sm:text-[3.25rem] lg:text-[3.5rem]">
-            Seu restaurante.
+            Pare de perder tempo
             <br />
-            <span className="brand-gradient-text">Um fluxo só.</span>
+            <span className="brand-gradient-text">entre as etapas.</span>
           </motion.h1>
           <motion.p variants={contentItem} className="mt-5 max-w-[52ch] text-[15px] leading-relaxed text-muted sm:mt-6 sm:text-base">
-            Conecte pedidos, cozinha, caixa, retirada e gestão em um só fluxo. Sua equipe acompanha cada etapa com mais clareza, e o cliente tem uma experiência de pedido mais organizada.
+            O Autofluxe conecta atendimento, cozinha, retirada e gestão em uma única operação, para sua equipe saber o próximo passo e seu cliente ter uma experiência mais organizada.
           </motion.p>
           <motion.div variants={contentItem} className="mt-7 flex flex-col items-stretch gap-3 min-[420px]:flex-row min-[420px]:items-center">
-            <Button href="#demonstracao" variant="primary">
-              Ver a operação em ação
+            <Button href="#contato" variant="primary">
+              Quero conhecer o Autofluxe
             </Button>
-            <Button href="#contato" variant="secondary">
-              Solicitar demonstração
+            <Button href="#demonstracao" variant="secondary">
+              Ver como funciona
             </Button>
           </motion.div>
-          <motion.p variants={contentItem} className="mt-4 text-xs text-muted-2">Pedido · atendimento · cozinha · retirada · gestão</motion.p>
+          <motion.p variants={contentItem} className="mt-4 text-xs text-muted-2">Para restaurantes, fast casual, cafeterias, praças de alimentação e redes em crescimento.</motion.p>
         </motion.div>
 
         <motion.div

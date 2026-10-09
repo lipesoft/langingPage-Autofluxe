@@ -6,20 +6,20 @@ const ROUTINE_POINTS = [
   {
     icon: ClipboardList,
     label: "Pedido",
-    title: "Mais contexto entre atendimento e operação",
-    description: "A origem e o estado do pedido aparecem juntos para a equipe acompanhar a sequência sem perder o contexto.",
+    title: "Atendimento sem desencontro",
+    description: "A equipe acompanha a origem e o estado do pedido para saber o que entrou, o que falta e qual é o próximo passo.",
   },
   {
     icon: ChefHat,
     label: "Cozinha · KDS",
     title: "Uma fila mais clara para preparar",
-    description: "O KDS ilustrativo organiza comandas por etapa para a equipe identificar o que chegou e o que está em preparo.",
+    description: "O KDS organiza os pedidos por etapa para a cozinha priorizar o que chegou e manter o preparo visível.",
   },
   {
     icon: PanelsTopLeft,
     label: "Retirada",
-    title: "Status de pronto em evidência",
-    description: "A tela de retirada destaca pedidos prontos para apoiar uma chamada mais fácil de reconhecer no balcão.",
+    title: "Menos perguntas no balcão",
+    description: "O status de pronto fica em evidência para ajudar o cliente a reconhecer a chamada e retirar o pedido com mais facilidade.",
   },
 ];
 
@@ -31,13 +31,13 @@ export default function FeatureShowcase() {
       <div className="mx-auto max-w-content px-5 sm:px-8">
         <div className="grid gap-4 md:grid-cols-[0.8fr_1.2fr] md:items-end">
           <div>
-            <p className="text-xs font-bold uppercase tracking-[0.16em] text-brand-deep">Recursos na rotina</p>
+            <p className="text-xs font-bold uppercase tracking-[0.16em] text-brand-deep">O que muda na rotina</p>
             <h2 className="mt-3 text-balance font-display text-[1.9rem] font-bold leading-tight text-ink sm:text-[2.3rem]">
-              Menos ruído entre os pontos da operação.
+              Uma operação mais fácil de acompanhar.
             </h2>
           </div>
           <p className="max-w-prose text-[15px] leading-relaxed text-muted">
-            O valor está em cada etapa encontrar a próxima com o estado do pedido mais claro para quem atende, prepara e entrega.
+            O Autofluxe organiza o caminho do pedido para que as pessoas certas tenham a informação certa no momento certo.
           </p>
         </div>
 

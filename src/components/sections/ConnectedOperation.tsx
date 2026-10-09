@@ -3,9 +3,7 @@ import { CircleDot } from "lucide-react";
 import { motion } from "framer-motion";
 import LandscapeTV from "../devices/LandscapeTV";
 import TotemVertical from "../devices/TotemVertical";
-import { KdsScreen } from "../devices/screens/KdsScreen";
-import { MenuScreen } from "../devices/screens/MenuScreen";
-import { PickupScreen } from "../devices/screens/PickupScreen";
+import CapturedScreen from "../devices/CapturedScreen";
 import usePrefersReducedMotion from "../../hooks/usePrefersReducedMotion";
 
 function DeviceStage({
@@ -56,7 +54,7 @@ export default function ConnectedOperation() {
           </span>
         </span>
         <span className="shrink-0 rounded-full border border-border bg-white px-2.5 py-1 text-[10px] font-medium text-muted">
-          Interface ilustrativa
+          Capturas locais do sistema
         </span>
       </div>
 
@@ -77,19 +75,19 @@ export default function ConnectedOperation() {
       <ol className="grid grid-cols-[minmax(112px,0.86fr)_minmax(0,1fr)] grid-rows-2 items-stretch gap-x-2 gap-y-5 min-[1200px]:grid-cols-3 min-[1200px]:grid-rows-1 min-[1200px]:gap-x-3">
         <DeviceStage step="01" title="Pedir" detail="Totem" className="row-span-2 justify-center min-[1200px]:row-span-1">
           <TotemVertical sizeClass="[--dw:104px] min-[380px]:[--dw:116px] sm:[--dw:138px] lg:[--dw:148px]" tilt={false}>
-            <MenuScreen />
+            <CapturedScreen src="/assets/captured/totem-catalog-real.png" alt="Catálogo real do Totem Brasa Nativa" />
           </TotemVertical>
         </DeviceStage>
 
         <DeviceStage step="02" title="Preparar" detail="KDS · cozinha">
           <LandscapeTV sizeClass="[--dw:140px] min-[380px]:[--dw:158px] sm:[--dw:194px]" mount="wall">
-            <KdsScreen />
+            <CapturedScreen src="/assets/captured/kds-real.png" alt="Fila real da cozinha no KDS Autofluxe" />
           </LandscapeTV>
         </DeviceStage>
 
         <DeviceStage step="03" title="Retirar" detail="Pickup · balcão">
           <LandscapeTV sizeClass="[--dw:140px] min-[380px]:[--dw:158px] sm:[--dw:194px]" mount="wall">
-            <PickupScreen />
+            <CapturedScreen src="/assets/captured/pickup-real.png" alt="Painel real de retirada do Autofluxe" />
           </LandscapeTV>
         </DeviceStage>
       </ol>

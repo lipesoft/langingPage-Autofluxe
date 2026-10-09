@@ -12,13 +12,13 @@ export default function FinalCTA() {
         <div className="max-w-[490px]">
           <p className="text-xs font-bold uppercase tracking-[0.16em] text-signal-soft">Próximo passo</p>
           <h2 className="mt-3 text-balance font-display text-[2rem] font-extrabold leading-[1.12] text-white sm:text-[2.6rem]">
-            Veja o Autofluxe no contexto da sua operação.
+            Descubra como organizar melhor a sua operação.
           </h2>
           <p className="mt-5 text-[15px] leading-relaxed text-[#C7CED9]">
-            Conte um pouco sobre sua operação para a equipe entender o contexto e apresentar o Autofluxe de forma mais próxima da sua rotina.
+            Conte como seu restaurante funciona hoje. A equipe apresenta o Autofluxe com foco nos pontos que mais impactam o seu dia a dia.
           </p>
           <a href="#demonstracao" className="mt-6 inline-flex min-h-11 items-center text-sm font-semibold text-white/80 transition-colors hover:text-white focus-visible:outline-2 focus-visible:outline-signal">
-            Ver a operação em ação
+            Antes, veja a demonstração
           </a>
         </div>
 

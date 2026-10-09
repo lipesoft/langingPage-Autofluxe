@@ -42,7 +42,7 @@ export default function OrderFlowDemo({
             </p>
             <p className="mt-3 inline-flex items-start gap-2 text-xs leading-relaxed text-muted">
               <Info size={14} className="mt-0.5 shrink-0 text-brand-deep" aria-hidden="true" />
-              Demonstração visual — nenhum pedido real será enviado.
+              Demonstração visual. Nenhum pedido real será enviado.
             </p>
             <Button onClick={onStart} variant="primary" className="mt-6 min-h-11" disabled={stage >= 0 && !finished}>
               {finished ? <RotateCcw size={15} aria-hidden="true" /> : null}
